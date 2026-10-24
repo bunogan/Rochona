@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>লেখক-প্যানেল · রচনাসংকলন</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+body{font-family:var(--f-ui);line-height:1.6}
+.panel{max-width:46rem;margin:0 auto;padding-block:2.4rem 5rem;display:grid;gap:2.4rem}
+.panel h1{font-family:var(--f-display);font-weight:400;font-size:2.2rem;margin:0}
+.panel .intro{color:var(--ink-soft);margin:.3rem 0 0}
+.box{border:1px solid var(--rule);border-radius:8px;padding:1.4rem;display:grid;gap:1rem;background:var(--paper)}
+.box h2{font-size:1.15rem;margin:0;font-weight:600;display:flex;gap:.6rem;align-items:baseline}
+.box h2 .step{font-size:.8rem;color:var(--accent);font-weight:600;letter-spacing:.04em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+label{display:grid;gap:.3rem;font-size:.92rem;color:var(--ink-soft);min-width:0}
+input[type=text],input[type=password],select,textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:.5rem .65rem;width:100%}
+textarea{min-height:4.5rem;resize:vertical}
+input[type=file]{font:inherit;font-size:.92rem;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-size:.95rem;border-radius:6px;padding:.5rem 1rem;cursor:pointer;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+button.danger{color:var(--mark);border-color:var(--mark)}
+button:disabled{opacity:.5;cursor:default}
+button.mini{padding:.2rem .55rem;font-size:.85rem}
+.hint{font-size:.85rem;color:var(--ink-soft);margin:0}
+.chip{display:inline-block;font-size:.82rem;padding:.15rem .6rem;border-radius:99px;background:var(--paper-2);color:var(--ink-soft)}
+.chip.ok{background:var(--accent-soft);color:var(--accent)}
+.chip.bad{color:var(--mark)}
+.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.list li{display:grid;grid-template-columns:5rem minmax(0,1fr) auto;gap:.8rem;align-items:center;padding:.65rem 0;border-bottom:1px solid var(--rule)}
+.list .k{font-size:.85rem;color:var(--accent);font-weight:600}
+.list .t{font-family:var(--f-display);font-size:1.1rem;overflow-wrap:anywhere}
+.list .b{display:flex;gap:.3rem;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:560px){.list li{grid-template-columns:1fr}.list .b{justify-content:flex-start}}
+.log{font-size:.88rem;background:var(--paper-2);border-radius:6px;padding:.8rem 1rem;white-space:pre-wrap;max-height:14rem;overflow:auto;margin:0}
+.preview{border:1px dashed var(--rule);border-radius:6px;padding:1rem 1.2rem;max-height:28rem;overflow:auto}
+.preview .reading{font-family:var(--f-body)}
+.preview h3.ch{font-family:var(--f-display);font-weight:400;font-size:1.3rem;margin:1.4rem 0 .4rem;color:var(--accent)}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:.4rem}
+legend{font-size:.92rem;color:var(--ink-soft);margin-bottom:.3rem}
+.radio{display:flex;gap:.5rem;align-items:flex-start;color:var(--ink);font-size:.95rem}
+.radio input{margin-top:.35rem}
+details summary{cursor:pointer;color:var(--accent);font-size:.92rem}
+details ol{margin:.6rem 0 0;padding-left:1.3rem;font-size:.9rem;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <div class="bar"><a class="brand" href="index.html">রচনাসংকলন <span>: লেখক-প্যানেল</span></a>
+  <div class="tools"><a href="index.html" style="font-size:.9rem;align-self:center">সাইট দেখুন →</a></div></div>
+</header>
+<main class="wrap">
+<div class="panel">
+  <div><h1>লেখক-প্যানেল</h1><p class="intro">এখান থেকে নতুন লেখা যোগ, পুরনো লেখা সম্পাদনা বা মুছে ফেলা যায়। কাজ করবে শুধু আপনার GitHub চাবি দিয়ে, তাই অন্য কেউ এই পাতা খুললেও কিছু বদলাতে পারবেন না।</p></div>
+
+  <section class="box" id="conn">
+    <h2><span class="step">ধাপ ১</span> GitHub সংযোগ <span class="chip" id="connchip">সংযুক্ত নয়</span></h2>
+    <div class="grid2">
+      <label for="g-owner">GitHub ব্যবহারকারী<input type="text" id="g-owner" value="bunogan" autocomplete="off"></label>
+      <label for="g-repo">রিপোজিটরির নাম<input type="text" id="g-repo" value="Rochona" autocomplete="off"></label>
+    </div>
+    <div class="grid2">
+      <label for="g-branch">ব্রাঞ্চ<input type="text" id="g-branch" value="main" autocomplete="off"></label>
+      <label for="g-token">GitHub চাবি (token)<input type="password" id="g-token" autocomplete="off" placeholder="github_pat_…"></label>
+    </div>
+    <div class="row"><button type="button" class="primary" id="g-save">সংযুক্ত করুন</button><button type="button" id="g-forget">এই ডিভাইস থেকে চাবি মুছুন</button></div>
+    <details><summary>চাবি (token) কীভাবে বানাবেন</summary>
+      <ol>
+        <li>GitHub-এ লগইন করে Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token।</li>
+        <li>Repository access-এ শুধু এই সাইটের রিপোজিটরি বেছে নিন।</li>
+        <li>Permissions → Repository permissions → Contents: <b>Read and write</b>।</li>
+        <li>বানানো চাবিটি কপি করে ওপরের ঘরে বসান। চাবি শুধু আপনার এই ব্রাউজারে থাকে, কোথাও পাঠানো হয় না।</li>
+      </ol>
+    </details>
+  </section>
+
+  <section class="box" id="listbox">
+    <h2><span class="step">ধাপ ২</span> প্রকাশিত লেখা</h2>
+    <ul class="list" id="list"><li><span></span><span class="hint">সংযুক্ত হলে তালিকা দেখা যাবে।</span><span></span></li></ul>
+    <div class="row" id="orderrow" hidden><button type="button" class="primary" id="saveorder">নতুন ক্রম সংরক্ষণ করুন</button><span class="hint">↑ ↓ দিয়ে প্রথম পাতায় লেখার ক্রম বদলান।</span></div>
+  </section>
+
+  <section class="box" id="formbox">
+    <h2><span class="step">ধাপ ৩</span> <span id="formtitle">নতুন লেখা যোগ করুন</span></h2>
+    <div class="grid2">
+      <label for="f-title">শিরোনাম<input type="text" id="f-title" autocomplete="off"></label>
+      <label for="f-kind">ধরন<select id="f-kind"><option>প্রবন্ধ</option><option>গল্প</option><option>গ্রন্থ</option><option>কবিতা</option><option>স্মৃতিকথা</option><option>অন্যান্য</option></select></label>
+    </div>
+    <div class="grid2">
+      <label for="f-date">তারিখ<input type="text" id="f-date" autocomplete="off"></label>
+      <label for="f-file">ফাইল (Word .docx বা PDF)<input type="file" id="f-file" accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></label>
+    </div>
+    <label for="f-desc">সংক্ষিপ্ত পরিচিতি (প্রথম পাতায় শিরোনামের নিচে দেখাবে)<textarea id="f-desc"></textarea></label>
+    <fieldset id="pdfmode" hidden><legend>PDF কীভাবে দেখাবে</legend>
+      <label class="radio" for="pm-page"><input type="radio" name="pm" id="pm-page" value="page" checked><span>পাতা হিসেবে, ঠিক যেমন PDF-এ আছে <span class="hint">(বাংলা PDF-এর জন্য সবচেয়ে নিরাপদ)</span></span></label>
+      <label class="radio" for="pm-text"><input type="radio" name="pm" id="pm-text" value="text"><span>লেখা বের করে সাধারণ লেখার মতো <span class="hint">(প্রিভিউ দেখে নিন, অনেক বাংলা PDF-এ অক্ষর ভেঙে যায়)</span></span></label>
+    </fieldset>
+    <p class="hint" id="bookhint" hidden>গ্রন্থের ক্ষেত্রে Word ফাইলের "Heading 1" স্টাইল বা "অধ্যায় ১", "অধ্যায় ২"… দিয়ে শুরু হওয়া লাইন থেকে নতুন অধ্যায় ধরা হবে। "প্রথম পর্ব" ধরনের লাইন থেকে পর্ব ধরা হবে।</p>
+    <div class="grid2">
+      <label for="f-img">প্রচ্ছদ ছবি (ঐচ্ছিক)<input type="file" id="f-img" accept="image/*"></label>
+      <label for="f-alt">ছবির বর্ণনা (ঐচ্ছিক)<input type="text" id="f-alt" autocomplete="off"></label>
+    </div>
+    <p class="hint" id="edithint" hidden>সম্পাদনার সময় নতুন ফাইল না দিলে আগের লেখা থাকবে, শুধু শিরোনাম, তারিখ ও পরিচিতি বদলাবে।</p>
+    <div class="row">
+      <button type="button" id="f-preview">প্রিভিউ দেখুন</button>
+      <button type="button" class="primary" id="f-publish">প্রকাশ করুন</button>
+      <button type="button" id="f-cancel" hidden>সম্পাদনা বাতিল</button>
+    </div>
+    <div class="preview" id="preview" hidden></div>
+    <pre class="log" id="log" hidden></pre>
+  </section>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BN = s => String(s).replace(/[0-9]/g, d=>'০১২৩৪৫৬৭৮৯'[d]);
+const MONTHS = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const today = () => { const d=new Date(); return BN(d.getDate())+' '+MONTHS[d.getMonth()]+', '+BN(d.getFullYear()); };
+const words = s => (s.match(/\S+/g)||[]).length;
+const textOf = html => { const t=document.createElement('template'); t.innerHTML=html; return t.content.textContent||''; };
+const log = (msg, reset) => { const l=$('log'); l.hidden=false; l.textContent = reset? msg : (l.textContent? l.textContent+'\n':'')+msg; l.scrollTop=l.scrollHeight; };
+
+/* ---------- settings ---------- */
+['owner','repo','branch','token'].forEach(k=>{ const v=store.get('gh-'+k); if(v) $('g-'+k).value=v; });
+const cfg = () => ({owner:$('g-owner').value.trim(), repo:$('g-repo').value.trim(), branch:$('g-branch').value.trim()||'main', token:$('g-token').value.trim()});
+
+/* ---------- GitHub API ---------- */
+async function gh(path, opts={}){
+  const c = cfg();
+  const r = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}${path}`, {...opts, headers:{'Authorization':'Bearer '+c.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(opts.headers||{})}});
+  if(r.status===404) return null;
+  if(!r.ok){ let m=''; try{m=(await r.json()).message}catch(e){} throw new Error(`GitHub ${r.status}: ${m}`); }
+  return r.status===204? {} : r.json();
+}
+const b64FromBytes = bytes => { let s=''; for(let i=0;i<bytes.length;i+=0x8000) s+=String.fromCharCode.apply(null, bytes.subarray(i,i+0x8000)); return btoa(s); };
+const b64FromText = t => b64FromBytes(new TextEncoder().encode(t));
+const textFromB64 = b => { const bin=atob(b.replace(/\s/g,'')); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder().decode(u); };
+async function getFile(path){
+  const c=cfg(); const meta = await gh(`/contents/${path}?ref=${encodeURIComponent(c.branch)}`);
+  if(!meta) return null;
+  let content = meta.content;
+  if(!content || meta.encoding==='none'){ const blob = await gh(`/git/blobs/${meta.sha}`); content = blob.content; }
+  return {sha:meta.sha, text:textFromB64(content)};
+}
+async function shaOf(path){ const c=cfg(); const m = await gh(`/contents/${path}?ref=${encodeURIComponent(c.branch)}`); return m? m.sha : null; }
+async function putFile(path, b64, message){
+  const c=cfg(); const sha = await shaOf(path);
+  return gh(`/contents/${path}`, {method:'PUT', body:JSON.stringify({message, content:b64, branch:c.branch, ...(sha?{sha}:{})})});
+}
+async function delFile(path, message){
+  const c=cfg(); const sha = await shaOf(path); if(!sha) return;
+  return gh(`/contents/${path}`, {method:'DELETE', body:JSON.stringify({message, sha, branch:c.branch})});
+}
+
+/* ---------- connect & list ---------- */
+let WORKS = [], orderDirty = false, editing = null;
+async function connect(){
+  const c = cfg(); if(!c.token){ setChip('চাবি দিন','bad'); return; }
+  ['owner','repo','branch','token'].forEach(k=>store.set('gh-'+k, c[k]));
+  setChip('যাচাই হচ্ছে…');
+  try{
+    const repo = await gh('');
+    if(!repo){ setChip('রিপোজিটরি পাওয়া যায়নি','bad'); return; }
+    if(!(repo.permissions&&repo.permissions.push)){ setChip('এই চাবিতে লেখার অনুমতি নেই','bad'); return; }
+    setChip('সংযুক্ত','ok'); await loadWorks();
+  }catch(e){ setChip('সংযোগ হয়নি','bad'); log(e.message, true); }
+}
+function setChip(t, cls){ const ch=$('connchip'); ch.textContent=t; ch.className='chip'+(cls?' '+cls:''); }
+async function loadWorks(){
+  const f = await getFile('content/works.json');
+  WORKS = f? JSON.parse(f.text).works : [];
+  orderDirty=false; renderList();
+}
+function renderList(){
+  $('orderrow').hidden = !orderDirty;
+  if(!WORKS.length){ $('list').innerHTML='<li><span></span><span class="hint">এখনো কোনো লেখা নেই।</span><span></span></li>'; return; }
+  $('list').innerHTML = WORKS.map((w,i)=>`<li data-i="${i}"><span class="k">${esc(w.kind)}</span><span class="t">${esc(w.title)}</span><span class="b">
+    <button type="button" class="mini" data-a="up" ${i===0?'disabled':''} aria-label="ওপরে">↑</button>
+    <button type="button" class="mini" data-a="down" ${i===WORKS.length-1?'disabled':''} aria-label="নিচে">↓</button>
+    <button type="button" class="mini" data-a="edit">সম্পাদনা</button>
+    <button type="button" class="mini danger" data-a="del">মুছুন</button></span></li>`).join('');
+}
+$('list').addEventListener('click', async e=>{
+  const b = e.target.closest('button'); if(!b) return; const li=b.closest('li'); const i=+li.dataset.i; const a=b.dataset.a;
+  if(a==='up'||a==='down'){ const j=a==='up'?i-1:i+1; [WORKS[i],WORKS[j]]=[WORKS[j],WORKS[i]]; orderDirty=true; renderList(); }
+  if(a==='edit') startEdit(WORKS[i]);
+  if(a==='del'){ li.querySelector('.b').innerHTML = `<span class="hint">"${esc(WORKS[i].title)}" মুছবেন?</span><button type="button" class="mini danger" data-a="del2">হ্যাঁ, মুছুন</button><button type="button" class="mini" data-a="no">না</button>`; }
+  if(a==='no') renderList();
+  if(a==='del2') await removeWork(WORKS[i]);
+});
+$('saveorder').onclick = async ()=>{
+  try{ log('ক্রম সংরক্ষণ হচ্ছে…', true); await saveWorksList('লেখার ক্রম বদল'); orderDirty=false; renderList(); log('ক্রম সংরক্ষিত। সাইটে দেখা যাবে ১–২ মিনিটের মধ্যে।'); }
+  catch(e){ log('সমস্যা: '+e.message); }
+};
+async function saveWorksList(msg){
+  const f = await getFile('content/works.json');
+  // keep any entries added elsewhere meanwhile
+  const remote = f? JSON.parse(f.text).works : [];
+  const ids = new Set(WORKS.map(w=>w.id));
+  const merged = WORKS.concat(remote.filter(w=>!ids.has(w.id) && !removedIds.has(w.id)));
+  await putFile('content/works.json', b64FromText(JSON.stringify({works:merged}, null, 1)), msg);
+  WORKS = merged;
+}
+const removedIds = new Set();
+async function removeWork(w){
+  try{
+    log(`"${w.title}" মোছা হচ্ছে…`, true);
+    removedIds.add(w.id);
+    WORKS = WORKS.filter(x=>x.id!==w.id);
+    await saveWorksList('লেখা মুছে ফেলা: '+w.title);
+    for(const p of [`content/${w.id}.json`, `content/files/${w.id}.pdf`, `content/img/${w.id}.jpg`]) await delFile(p, 'মুছে ফেলা: '+w.title);
+    renderList(); log('মুছে ফেলা হয়েছে।');
+  }catch(e){ log('সমস্যা: '+e.message); }
+}
+
+/* ---------- form ---------- */
+$('f-date').value = today();
+function syncForm(){
+  const f = $('f-file').files[0];
+  $('pdfmode').hidden = !(f && /\.pdf$/i.test(f.name));
+  $('bookhint').hidden = !($('f-kind').value==='গ্রন্থ' && !(f && /\.pdf$/i.test(f.name)));
+}
+$('f-file').onchange = syncForm; $('f-kind').onchange = syncForm;
+function startEdit(w){
+  editing = w;
+  $('formtitle').textContent = 'সম্পাদনা: '+w.title;
+  $('f-title').value = w.title; $('f-kind').value = w.kind; $('f-date').value = w.date||''; $('f-desc').value = w.desc||'';
+  $('f-file').value=''; $('f-img').value=''; $('f-alt').value='';
+  $('edithint').hidden=false; $('f-cancel').hidden=false; $('preview').hidden=true; syncForm();
+  $('formbox').scrollIntoView({behavior:'smooth'});
+}
+$('f-cancel').onclick = ()=>{ editing=null; $('formtitle').textContent='নতুন লেখা যোগ করুন'; ['f-title','f-desc','f-alt'].forEach(i=>$(i).value=''); $('f-file').value=''; $('f-img').value=''; $('f-date').value=today(); $('edithint').hidden=true; $('f-cancel').hidden=true; $('preview').hidden=true; syncForm(); };
+
+/* ---------- conversion ---------- */
+function shrinkImage(src, max=1000, q=.82){
+  return new Promise(res=>{ const im=new Image(); im.onload=()=>{ const s=Math.min(1,max/Math.max(im.width,im.height)); const c=document.createElement('canvas'); c.width=Math.round(im.width*s); c.height=Math.round(im.height*s); const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); res(c.toDataURL('image/jpeg',q)); }; im.onerror=()=>res(src); im.src=src; });
+}
+async function docxToHtml(file){
+  const buf = await file.arrayBuffer();
+  const r = await mammoth.convertToHtml({arrayBuffer:buf}, {
+    styleMap:["p[style-name='Quote'] => blockquote > p:fresh","p[style-name='Intense Quote'] => blockquote > p:fresh","p[style-name='Title'] => h1:fresh"],
+    convertImage: mammoth.images.imgElement(async img=>({src: await shrinkImage('data:'+img.contentType+';base64,'+await img.read('base64'))}))
+  });
+  return r.value.replace(/<p>\s*<\/p>/g,'').replace(/<a id="[^"]*"><\/a>/g,'');
+}
+async function pdfText(file){
+  await pdfLib();
+  const doc = await pdfjsLib.getDocument({data: new Uint8Array(await file.arrayBuffer())}).promise;
+  let html='';
+  for(let n=1;n<=doc.numPages;n++){
+    const tc = await (await doc.getPage(n)).getTextContent();
+    let lines=[], cur=null;
+    for(const it of tc.items){ const y=Math.round(it.transform[5]); const h=it.height||10;
+      if(!cur || Math.abs(cur.y-y)>h*.5){ cur={y,h,t:''}; lines.push(cur); }
+      cur.t += it.str + (it.hasEOL?' ':''); }
+    let para='';
+    lines.forEach((l,i)=>{ const prev=lines[i-1]; if(prev && (prev.y-l.y) > prev.h*1.8 && para.trim()){ html+=`<p>${esc(para.trim())}</p>`; para=''; } para+=l.t.trim()+' '; });
+    if(para.trim()) html+=`<p>${esc(para.trim())}</p>`;
+  }
+  return {html, pages:doc.numPages};
+}
+async function pdfPages(file){ await pdfLib(); const doc = await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise; return doc.numPages; }
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+async function pdfLib(){ if(!window.pdfjsLib){ const P='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/'; await loadScript(P+'pdf.min.js'); await loadScript(P+'pdf.worker.min.js'); } }
+
+const mins = html => Math.max(1, Math.round(words(textOf(html))/180));
+function splitBook(html, title){
+  const t=document.createElement('template'); t.innerHTML=html;
+  const nodes=[...t.content.childNodes].filter(n=>n.nodeType===1);
+  const chapters=[], parts=[]; let cur=null, curPart=null;
+  const isChapter = el => el.tagName==='H1' || (/^(P|H2)$/.test(el.tagName) && /^(অধ্যায়\s*[০-৯0-9]+|উপসংহার|ভূমিকা|মুখবন্ধ|পরিশিষ্ট)\s*$/.test(el.textContent.trim()));
+  const isPart = el => /^(H1|H2|P)$/.test(el.tagName) && /^\S+\s+পর্ব$/.test(el.textContent.trim()) && el.textContent.trim().length<20;
+  for(let i=0;i<nodes.length;i++){
+    const el=nodes[i], tx=el.textContent.trim();
+    if(isPart(el)){ const nx=nodes[i+1]; let sub=''; if(nx && nx.textContent.trim().length<60 && !isChapter(nx)){ sub=nx.textContent.trim(); i++; }
+      curPart={name:tx, sub, chapters:[]}; parts.push(curPart); continue; }
+    if(isChapter(el)){
+      let num='', ttl=tx; const m=tx.match(/^অধ্যায়\s*([০-৯0-9]+)\s*[:.।-]?\s*(.*)$/);
+      if(m){ num=BN(m[1]); ttl=m[2]; if(!ttl){ const nx=nodes[i+1]; if(nx && nx.textContent.trim().length<90){ ttl=nx.textContent.trim(); i++; } } }
+      let sub=''; const nx2=nodes[i+1]; if(nx2 && /^(P|H3|H4)$/.test(nx2.tagName) && nx2.textContent.trim().length<90 && nx2.querySelector && !nx2.querySelector('img') && /^(EM|I)$/.test((nx2.firstElementChild||{}).tagName||'')){ sub=nx2.textContent.trim(); i++; }
+      cur={num, title:ttl||tx, sub, part: curPart && !curPart.chapters.length ? {name:curPart.name, sub:curPart.sub} : null, nodes:[]};
+      if(curPart) curPart.chapters.push(chapters.length);
+      chapters.push(cur); continue;
+    }
+    if(!cur){ cur={num:'', title:'ভূমিকা', sub:'', part:null, nodes:[]}; chapters.push(cur); }
+    cur.nodes.push(el);
+  }
+  return {parts, chapters: chapters.map(c=>{ const h=c.nodes.map(n=>{ if(n.tagName==='H1'){ const h2=document.createElement('h2'); h2.innerHTML=n.innerHTML; return h2.outerHTML;} return n.outerHTML; }).join('\n'); return {num:c.num, title:c.title, sub:c.sub, part:c.part, mins:BN(mins(h)), html:h}; })};
+}
+function stripTitle(html, title){
+  const t=document.createElement('template'); t.innerHTML=html;
+  const first=t.content.firstElementChild;
+  if(first && first.textContent.trim()===title.trim()) first.remove();
+  t.content.querySelectorAll('h1').forEach(h=>{ const h2=document.createElement('h2'); h2.innerHTML=h.innerHTML; h.replaceWith(h2); });
+  return t.innerHTML;
+}
+
+/* Build {doc, meta, extra files} from the form */
+async function buildFromForm(){
+  const title=$('f-title').value.trim(), kind=$('f-kind').value, date=$('f-date').value.trim(), desc=$('f-desc').value.trim();
+  if(!title) throw new Error('শিরোনাম লিখুন।');
+  const file=$('f-file').files[0];
+  if(!file && !editing) throw new Error('একটি Word (.docx) বা PDF ফাইল বেছে নিন।');
+  const out={title, kind, date, desc, files:[]};
+  if(file){
+    const isPdf=/\.pdf$/i.test(file.name);
+    if(!isPdf && !/\.docx$/i.test(file.name)) throw new Error('শুধু .docx বা .pdf ফাইল দেওয়া যাবে। পুরনো .doc ফাইল হলে Word-এ খুলে .docx হিসেবে সেভ করুন।');
+    if(isPdf && $('pm-page').checked){
+      if(file.size>45*1024*1024) throw new Error('PDF ফাইলটি ৪৫ MB-এর বেশি বড়। ছোট করে আবার দিন।');
+      const pages=await pdfPages(file);
+      out.doc={title, kind, date, format:'pdf', pdf:'', pages:BN(pages)};
+      out.pdfFile=file; out.meta=`${date?date+' · ':''}PDF, ${BN(pages)} পাতা`;
+    } else {
+      const html = isPdf ? (await pdfText(file)).html : await docxToHtml(file);
+      if(kind==='গ্রন্থ' && !isPdf){
+        const b=splitBook(html, title);
+        const total=b.chapters.reduce((s,c)=>s+words(textOf(c.html)),0);
+        out.doc={title, kind, format:'book', parts:b.parts, chapters:b.chapters};
+        out.meta=`${BN(b.chapters.length)}টি অধ্যায় · পড়তে প্রায় ${total/180>=60? BN((Math.round(total/180/30)/2).toString()).replace('.৫','½')+' ঘণ্টা' : BN(Math.max(1,Math.round(total/180)))+' মিনিট'}`;
+      } else {
+        const h=stripTitle(html, title);
+        out.doc={title, kind, date, format:'html', mins:BN(mins(h)), html:h, edited:''};
+        out.meta=`${date?date+' · ':''}পড়তে ${BN(mins(h))} মিনিট`;
+      }
+    }
+  }
+  const img=$('f-img').files[0];
+  if(img){ const data=await new Promise(r=>{const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(img);}); out.img=await shrinkImage(data, 1100, .8); out.alt=$('f-alt').value.trim(); }
+  return out;
+}
+
+$('f-preview').onclick = async ()=>{
+  const pv=$('preview');
+  try{
+    log('ফাইল পড়া হচ্ছে…', true);
+    const o = await buildFromForm();
+    pv.hidden=false;
+    if(!o.doc){ pv.innerHTML='<p class="hint">নতুন ফাইল দেওয়া হয়নি। শুধু তথ্য বদলাবে।</p>'; }
+    else if(o.doc.format==='pdf'){ pv.innerHTML=`<p class="hint">PDF-টি ${o.doc.pages} পাতা। সাইটে পাতাগুলো ছবির মতো দেখাবে।</p>`; }
+    else if(o.doc.format==='book'){ pv.innerHTML=`<p class="hint">${BN(o.doc.chapters.length)}টি অধ্যায় পাওয়া গেছে${o.doc.parts.length?`, ${BN(o.doc.parts.length)}টি পর্বে`:''}।</p><div class="reading">`+o.doc.chapters.map(c=>`<h3 class="ch">${c.num?'অধ্যায় '+c.num+' · ':''}${esc(c.title)}</h3>${c.html.slice(0,1800)}${c.html.length>1800?'<p class="hint">…</p>':''}`).join('')+'</div>'; }
+    else pv.innerHTML=`<div class="reading">${o.doc.html}</div>`;
+    log('প্রিভিউ তৈরি। ঠিক থাকলে "প্রকাশ করুন" চাপুন।');
+  }catch(e){ log('সমস্যা: '+e.message); }
+};
+
+$('f-publish').onclick = async ()=>{
+  const btn=$('f-publish'); btn.disabled=true;
+  try{
+    if($('connchip').className.indexOf('ok')<0) throw new Error('আগে ধাপ ১-এ GitHub সংযুক্ত করুন।');
+    log('প্রস্তুত হচ্ছে…', true);
+    const o = await buildFromForm();
+    const id = editing ? editing.id : 'r'+Date.now().toString(36);
+    let doc = o.doc;
+    if(!doc){ // metadata-only edit
+      const f = await getFile(`content/${id}.json`); doc = JSON.parse(f.text);
+      doc.title=o.title; doc.kind=o.kind; if(doc.format!=='book') doc.date=o.date;
+      if(doc.format==='html') doc.edited = today();
+    } else if(editing && doc.format==='html'){ doc.edited = today(); }
+    if(o.pdfFile){ log('PDF তোলা হচ্ছে… (বড় ফাইলে কিছুক্ষণ লাগতে পারে)'); doc.pdf=`content/files/${id}.pdf`; await putFile(doc.pdf, b64FromBytes(new Uint8Array(await o.pdfFile.arrayBuffer())), 'PDF: '+o.title); }
+    else if(o.doc && editing){ await delFile(`content/files/${id}.pdf`, 'পুরনো PDF সরানো: '+o.title); }
+    if(o.img){ log('ছবি তোলা হচ্ছে…'); doc.img=`content/img/${id}.jpg`; doc.alt=o.alt; await putFile(doc.img, o.img.split(',')[1], 'ছবি: '+o.title); }
+    else if(editing && editing.img && !doc.img){ doc.img = editing.img; }
+    log('লেখা তোলা হচ্ছে…');
+    await putFile(`content/${id}.json`, b64FromText(JSON.stringify(doc)), (editing?'সম্পাদনা: ':'নতুন লেখা: ')+o.title);
+    const entry = {id, kind:o.kind, title:o.title, desc:o.desc, meta: o.meta || (editing&&editing.meta) || '', format:doc.format, date:o.date};
+    if(doc.img) entry.img = doc.img;
+    if(editing){ WORKS = WORKS.map(w=>w.id===id? entry : w); } else { WORKS = [entry].concat(WORKS); }
+    await saveWorksList((editing?'সম্পাদনা: ':'নতুন লেখা: ')+o.title);
+    renderList();
+    log(`প্রকাশিত! ১–২ মিনিটের মধ্যে সাইটে দেখা যাবে: index.html#${id}`);
+    $('f-cancel').onclick();
+  }catch(e){ log('সমস্যা: '+e.message); }
+  finally{ btn.disabled=false; }
+};
+
+$('g-save').onclick = connect;
+$('g-forget').onclick = ()=>{ store.del('gh-token'); $('g-token').value=''; setChip('সংযুক্ত নয়'); log('এই ডিভাইস থেকে চাবি মুছে ফেলা হয়েছে।', true); };
+if($('g-token').value) connect();
+syncForm();
+})();
+</script>
+</body>
+</html>
