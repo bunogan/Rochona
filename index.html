@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="site.css">
 <style>
 .loading{max-width:var(--measure);margin:4rem auto;font-family:var(--f-ui);color:var(--ink-soft)}
 .pdfpages{display:grid;gap:14px;margin-top:1rem}
@@ -45,8 +45,8 @@ const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>
 const AUTHOR = 'মাহবুবুর রহমান';
 let WORKS = null; const cache = {};
 async function getJSON(p){const r = await fetch(p, {cache:'no-cache'}); if(!r.ok) throw new Error(p+' '+r.status); return r.json();}
-async function works(){ if(!WORKS) WORKS = (await getJSON('content/works.json')).works; return WORKS; }
-async function work(id){ if(!cache[id]) cache[id] = await getJSON('content/'+id+'.json'); return cache[id]; }
+async function works(){ if(!WORKS) WORKS = (await getJSON('works.json')).works; return WORKS; }
+async function work(id){ if(!cache[id]) cache[id] = await getJSON(id+'.json'); return cache[id]; }
 
 const delta = '<svg class="delta" viewBox="0 0 600 28" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 C60 2 120 26 180 14 S300 2 360 14 S480 26 540 14 S590 8 600 12" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M0 20 C70 10 130 30 200 20 S320 10 390 20 S510 30 600 18" fill="none" stroke="currentColor" stroke-width=".8" opacity=".6"/></svg>';
 

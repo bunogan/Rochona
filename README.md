@@ -2,9 +2,8 @@
 
 পাঠকের পাতা: `index.html` · লেখক-প্যানেল: `lekhok.html`
 
-- `content/works.json` — প্রথম পাতার লেখার তালিকা ও ক্রম
-- `content/<id>.json` — প্রতিটি লেখা
-- `content/files/` — PDF ফাইল · `content/img/` — ছবি
-- `assets/site.css` — নকশা
+- `works.json` — প্রথম পাতার লেখার তালিকা ও ক্রম
+- `<id>.json` — প্রতিটি লেখা · `<id>.pdf` — PDF · `<id>.jpg` — ছবি
+- `site.css` — নকশা
 
 নতুন লেখা যোগ বা সম্পাদনা করুন লেখক-প্যানেল থেকে। এই ফাইলগুলো হাতে বদলানোর দরকার নেই।

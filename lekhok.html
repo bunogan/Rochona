@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;600&family=Hind+Siliguri:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="site.css">
 <style>
 body{font-family:var(--f-ui);line-height:1.6}
 .panel{max-width:46rem;margin:0 auto;padding-block:2.4rem 5rem;display:grid;gap:2.4rem}
@@ -180,7 +180,7 @@ async function connect(){
 }
 function setChip(t, cls){ const ch=$('connchip'); ch.textContent=t; ch.className='chip'+(cls?' '+cls:''); }
 async function loadWorks(){
-  const f = await getFile('content/works.json');
+  const f = await getFile('works.json');
   WORKS = f? JSON.parse(f.text).works : [];
   orderDirty=false; renderList();
 }
@@ -206,12 +206,12 @@ $('saveorder').onclick = async ()=>{
   catch(e){ log('সমস্যা: '+e.message); }
 };
 async function saveWorksList(msg){
-  const f = await getFile('content/works.json');
+  const f = await getFile('works.json');
   // keep any entries added elsewhere meanwhile
   const remote = f? JSON.parse(f.text).works : [];
   const ids = new Set(WORKS.map(w=>w.id));
   const merged = WORKS.concat(remote.filter(w=>!ids.has(w.id) && !removedIds.has(w.id)));
-  await putFile('content/works.json', b64FromText(JSON.stringify({works:merged}, null, 1)), msg);
+  await putFile('works.json', b64FromText(JSON.stringify({works:merged}, null, 1)), msg);
   WORKS = merged;
 }
 const removedIds = new Set();
@@ -221,7 +221,7 @@ async function removeWork(w){
     removedIds.add(w.id);
     WORKS = WORKS.filter(x=>x.id!==w.id);
     await saveWorksList('লেখা মুছে ফেলা: '+w.title);
-    for(const p of [`content/${w.id}.json`, `content/files/${w.id}.pdf`, `content/img/${w.id}.jpg`]) await delFile(p, 'মুছে ফেলা: '+w.title);
+    for(const p of [`${w.id}.json`, `${w.id}.pdf`, `${w.id}.jpg`]) await delFile(p, 'মুছে ফেলা: '+w.title);
     renderList(); log('মুছে ফেলা হয়েছে।');
   }catch(e){ log('সমস্যা: '+e.message); }
 }
@@ -365,16 +365,16 @@ $('f-publish').onclick = async ()=>{
     const id = editing ? editing.id : 'r'+Date.now().toString(36);
     let doc = o.doc;
     if(!doc){ // metadata-only edit
-      const f = await getFile(`content/${id}.json`); doc = JSON.parse(f.text);
+      const f = await getFile(`${id}.json`); doc = JSON.parse(f.text);
       doc.title=o.title; doc.kind=o.kind; if(doc.format!=='book') doc.date=o.date;
       if(doc.format==='html') doc.edited = today();
     } else if(editing && doc.format==='html'){ doc.edited = today(); }
-    if(o.pdfFile){ log('PDF তোলা হচ্ছে… (বড় ফাইলে কিছুক্ষণ লাগতে পারে)'); doc.pdf=`content/files/${id}.pdf`; await putFile(doc.pdf, b64FromBytes(new Uint8Array(await o.pdfFile.arrayBuffer())), 'PDF: '+o.title); }
-    else if(o.doc && editing){ await delFile(`content/files/${id}.pdf`, 'পুরনো PDF সরানো: '+o.title); }
-    if(o.img){ log('ছবি তোলা হচ্ছে…'); doc.img=`content/img/${id}.jpg`; doc.alt=o.alt; await putFile(doc.img, o.img.split(',')[1], 'ছবি: '+o.title); }
+    if(o.pdfFile){ log('PDF তোলা হচ্ছে… (বড় ফাইলে কিছুক্ষণ লাগতে পারে)'); doc.pdf=`${id}.pdf`; await putFile(doc.pdf, b64FromBytes(new Uint8Array(await o.pdfFile.arrayBuffer())), 'PDF: '+o.title); }
+    else if(o.doc && editing){ await delFile(`${id}.pdf`, 'পুরনো PDF সরানো: '+o.title); }
+    if(o.img){ log('ছবি তোলা হচ্ছে…'); doc.img=`${id}.jpg`; doc.alt=o.alt; await putFile(doc.img, o.img.split(',')[1], 'ছবি: '+o.title); }
     else if(editing && editing.img && !doc.img){ doc.img = editing.img; }
     log('লেখা তোলা হচ্ছে…');
-    await putFile(`content/${id}.json`, b64FromText(JSON.stringify(doc)), (editing?'সম্পাদনা: ':'নতুন লেখা: ')+o.title);
+    await putFile(`${id}.json`, b64FromText(JSON.stringify(doc)), (editing?'সম্পাদনা: ':'নতুন লেখা: ')+o.title);
     const entry = {id, kind:o.kind, title:o.title, desc:o.desc, meta: o.meta || (editing&&editing.meta) || '', format:doc.format, date:o.date};
     if(doc.img) entry.img = doc.img;
     if(editing){ WORKS = WORKS.map(w=>w.id===id? entry : w); } else { WORKS = [entry].concat(WORKS); }
