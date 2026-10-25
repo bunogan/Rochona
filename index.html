@@ -20,6 +20,8 @@
 .pdfpages{display:grid;gap:14px;margin-top:1rem}
 .pdfpages canvas{display:block;width:100%;height:auto;background:#fff;box-shadow:0 0 0 1px var(--rule)}
 .pdfpages .ph{aspect-ratio:1/1.414;max-width:100%;background:var(--paper-2);display:grid;place-items:center;font-family:var(--f-ui);color:var(--ink-soft);font-size:.85rem}
+.authorlink{font-family:var(--f-ui);font-size:.9rem;align-self:center;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;text-decoration:none;color:var(--accent);margin-right:4px;white-space:nowrap}
+.authorlink:hover{border-color:var(--accent)}
 .pdflink{font-family:var(--f-ui);font-size:.95rem}
 .reading img{max-width:100%;height:auto}
 .reading blockquote{margin:1.6em 0;padding-left:1.3em;border-left:3px solid var(--accent);font-family:var(--f-display)}
@@ -56,6 +58,7 @@
   <div class="bar">
     <a class="brand" href="#home">রচনাসংকলন <span>: মাহবুবুর রহমান</span></a>
     <div class="tools">
+      <a id="authorlink" class="authorlink" href="lekhok.html" hidden>লেখক</a>
       <button type="button" id="fs-down" aria-label="লেখা ছোট করুন">জুম −</button>
       <button type="button" id="fs-up" aria-label="লেখা বড় করুন">জুম +</button>
       <button type="button" id="theme" aria-label="আলো বা অন্ধকার রং"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg></button>
@@ -213,6 +216,7 @@ function applyFs(){document.documentElement.style.setProperty('--fs', sizes[fi]+
 document.getElementById('fs-up').onclick=()=>{fi=Math.min(sizes.length-1,fi+1);applyFs()};
 document.getElementById('fs-down').onclick=()=>{fi=Math.max(0,fi-1);applyFs()};
 applyFs();
+if(store.get('gh-token')) document.getElementById('authorlink').hidden=false;
 const t0 = store.get('theme'); if(t0==='dark'||t0==='light') document.documentElement.setAttribute('data-theme',t0);
 document.getElementById('theme').onclick=()=>{
   const isDark = document.documentElement.getAttribute('data-theme')==='dark' ||
