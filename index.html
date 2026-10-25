@@ -20,6 +20,29 @@
 .reading blockquote{margin:1.6em 0;padding-left:1.3em;border-left:3px solid var(--accent);font-family:var(--f-display)}
 .reading table{border-collapse:collapse;max-width:100%}
 .reading td,.reading th{border:1px solid var(--rule);padding:.3em .6em}
+.latest{max-width:var(--measure);margin:0 auto 2.4rem;background:var(--accent-soft);border-radius:8px;padding:1.4rem 1.5rem 1.3rem}
+.latest a{text-decoration:none;color:inherit;display:block;margin-top:.35rem}
+.latest .wt{font-family:var(--f-display);font-size:1.9rem;line-height:1.3;margin:0}
+.latest a:hover .wt{color:var(--accent)}
+.latest .wd{margin:.35rem 0 .5rem;color:var(--ink-soft);line-height:1.7}
+.latest .wm{font-family:var(--f-ui);font-size:.85rem;color:var(--ink-soft)}
+.works.cats a{display:block;padding:0}
+.works.cats li{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:4px 20px;padding:1.6rem 0}
+.works.cats a.cat{color:var(--accent);padding-top:.45rem;text-decoration:none;align-self:start}
+.works.cats a.cat:hover{text-decoration:underline}
+.works.cats .cnt{color:var(--ink-soft);font-weight:400}
+.works.cats a.wlink{display:block;padding:0;text-decoration:none;color:inherit}
+.works.cats a.wlink:hover .wt{color:var(--accent)}
+.works.cats .more{display:inline-block;margin-top:.55rem;font-family:var(--f-ui);font-size:.9rem}
+@media (max-width:520px){.works.cats li{grid-template-columns:1fr}}
+.crumb{font-family:var(--f-ui);font-size:.9rem;text-decoration:none}
+.catlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.catlist li{border-bottom:1px solid var(--rule)}
+.catlist a{display:block;padding:1.4rem 0;text-decoration:none;color:inherit}
+.catlist .wt{font-family:var(--f-display);font-size:1.6rem;line-height:1.3;margin:0}
+.catlist a:hover .wt{color:var(--accent)}
+.catlist .wd{margin:.35rem 0 .5rem;color:var(--ink-soft);line-height:1.7}
+.catlist .wm{font-family:var(--f-ui);font-size:.85rem;color:var(--ink-soft)}
 </style>
 
 </head>
@@ -50,13 +73,29 @@ async function work(id){ if(!cache[id]) cache[id] = await getJSON(id+'.json'); r
 
 const delta = '<svg class="delta" viewBox="0 0 600 28" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 C60 2 120 26 180 14 S300 2 360 14 S480 26 540 14 S590 8 600 12" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M0 20 C70 10 130 30 200 20 S320 10 390 20 S510 30 600 18" fill="none" stroke="currentColor" stroke-width=".8" opacity=".6"/></svg>';
 
+const BN = n => String(n).replace(/[0-9]/g, d=>'০১২৩৪৫৬৭৮৯'[d]);
+const KINDS = [['গ্রন্থ','granth','সব গ্রন্থ'],['প্রবন্ধ','probondho','সব প্রবন্ধ'],['গল্প','golpo','সব গল্প'],['কবিতা','kobita','সব কবিতা'],['স্মৃতিকথা','smritikotha','সব স্মৃতিকথা'],['অন্যান্য','onyanyo','অন্যান্য সব লেখা']];
+function cats(W){
+  const order = KINDS.map(k=>k[0]); const seen = [];
+  W.forEach(w=>{ if(!seen.includes(w.kind)) seen.push(w.kind); });
+  seen.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
+  return seen.map((k,i)=>{ const f=KINDS.find(x=>x[0]===k); return {kind:k, token:'cat-'+(f?f[1]:'k'+i), all:f?f[2]:'সব '+k, items:W.filter(w=>w.kind===k)}; });
+}
+function catOf(W,kind){ return cats(W).find(c=>c.kind===kind); }
 async function home(){
   document.title = 'রচনাসংকলন : ' + AUTHOR;
-  const W = await works();
+  const W = await works(); const C = cats(W); const L = W[0];
   app.innerHTML = `<section class="mast"><h1>রচনাসংকলন</h1><p class="by">${AUTHOR}</p>${delta}</section>
-  <ul class="works">${W.map(w=>`<li><a href="#${w.id}"><span class="label">${esc(w.kind)}</span><div class="body"><h2 class="wt">${esc(w.title)}</h2>${w.desc?`<p class="wd">${esc(w.desc)}</p>`:''}<span class="wm">${esc(w.meta||'')}</span></div></a></li>`).join('')}</ul>
+  ${L?`<section class="latest"><span class="label">সর্বশেষ লেখা · ${esc(L.kind)}</span><a href="#${L.id}"><h2 class="wt">${esc(L.title)}</h2>${L.desc?`<p class="wd">${esc(L.desc)}</p>`:''}<span class="wm">${esc(L.meta||'')}</span></a></section>`:''}
+  <ul class="works cats">${C.map(c=>{const w=c.items[0];return `<li><a class="label cat" href="#${c.token}">${esc(c.kind)} <span class="cnt">(${BN(c.items.length)})</span></a><div class="body"><a class="wlink" href="#${w.id}"><h2 class="wt">${esc(w.title)}</h2>${w.desc?`<p class="wd">${esc(w.desc)}</p>`:''}<span class="wm">${esc(w.meta||'')}</span></a>${c.items.length>1?`<a class="more" href="#${c.token}">${esc(c.all)} (${BN(c.items.length)}) →</a>`:''}</div></li>`}).join('')}</ul>
   <p class="foot">© ${AUTHOR}। সব লেখার স্বত্ব লেখকের।</p>`;
 }
+async function category(c){
+  document.title = c.kind + ' · ' + AUTHOR;
+  app.innerHTML = `<div class="col"><header class="head"><a class="crumb" href="#home">← প্রথম পাতা</a><h1>${esc(c.kind)}</h1><p class="meta">${BN(c.items.length)}টি লেখা · নতুন থেকে পুরনো</p></header>
+  <ul class="catlist">${c.items.map(w=>`<li><a href="#${w.id}"><h2 class="wt">${esc(w.title)}</h2>${w.desc?`<p class="wd">${esc(w.desc)}</p>`:''}<span class="wm">${esc(w.meta||'')}</span></a></li>`).join('')}</ul></div>`;
+}
+function backLink(kind){ const c = WORKS && catOf(WORKS, kind); return c ? `<a href="#${c.token}"><small>← ${esc(c.all)}</small><span>${esc(c.kind)}</span></a>` : `<a href="#home"><small>← সব রচনা</small><span>প্রথম পাতা</span></a>`; }
 
 /* ---- book ---- */
 function chId(id,i){return id+'-'+(i+1)}
@@ -79,7 +118,7 @@ function cover(id,B){
   let parts = (B.parts||[]).map(p=>part(p.name,p.sub,p.chapters)).join('');
   const rest = ch.map((_,i)=>i).filter(i=>!used.has(i));
   if(rest.length) parts += part(B.parts&&B.parts.length?'শেষাংশ':'', B.parts&&B.parts.length?'':'সূচিপত্র', rest);
-  app.innerHTML = `<div class="col cover"><span class="label">${esc(B.kind||'গ্রন্থ')}</span><h1>${esc(B.title)}</h1><p class="by">${AUTHOR}</p>
+  app.innerHTML = `<div class="col cover">${(()=>{const c=catOf(WORKS,B.kind||'গ্রন্থ');return c?`<a class="crumb" href="#${c.token}">← ${esc(c.all)}</a><br>`:''})()}<span class="label">${esc(B.kind||'গ্রন্থ')}</span><h1>${esc(B.title)}</h1><p class="by">${AUTHOR}</p>
   ${B.img?`<figure class="lead-img"><img src="${esc(B.img)}" alt=""></figure>`:''}
   <a class="btn" href="#${chId(id,0)}">পড়া শুরু করুন</a><div class="cparts">${parts}</div></div>`;
 }
@@ -94,7 +133,7 @@ function chapter(id,B,i){
     <details class="toc-mobile"><summary>সূচিপত্র · ${esc(B.title)}</summary><nav class="toc">${tocHTML(id,B,cur)}</nav></details>
     <header class="head">${partLine}${eyebrow?`<span class="label" style="color:var(--ink-soft)">${eyebrow}</span>`:''}<h1>${esc(c.title)}</h1>${c.sub?`<p class="sub">${esc(c.sub)}</p>`:''}<p class="meta">পড়তে প্রায় ${esc(c.mins)} মিনিট</p></header>
     <div class="reading">${c.html}</div>
-    <nav class="pager" aria-label="অধ্যায়">${prev?`<a href="#${chId(id,i-1)}"><small>← আগের অধ্যায়</small><span>${esc(ch[i-1].title)}</span></a>`:`<a href="#${id}"><small>← সূচিপত্র</small><span>${esc(B.title)}</span></a>`}${next?`<a class="next" href="#${chId(id,i+1)}"><small>পরের অধ্যায় →</small><span>${esc(ch[i+1].title)}</span></a>`:`<a class="next" href="#home"><small>সব রচনা →</small><span>প্রথম পাতা</span></a>`}</nav>
+    <nav class="pager" aria-label="অধ্যায়">${prev?`<a href="#${chId(id,i-1)}"><small>← আগের অধ্যায়</small><span>${esc(ch[i-1].title)}</span></a>`:`<a href="#${id}"><small>← সূচিপত্র</small><span>${esc(B.title)}</span></a>`}${next?`<a class="next" href="#${chId(id,i+1)}"><small>পরের অধ্যায় →</small><span>${esc(ch[i+1].title)}</span></a>`:`<a class="next" href="#${(catOf(WORKS,B.kind||'গ্রন্থ')||{token:'home'}).token}"><small>শেষ →</small><span>${esc((catOf(WORKS,B.kind||'গ্রন্থ')||{all:'প্রথম পাতা'}).all)}</span></a>`}</nav>
   </article></div>`;
 }
 
@@ -105,7 +144,7 @@ function piece(id,e){
   ${e.img?`<figure class="lead-img"><img src="${esc(e.img)}" alt="${esc(e.alt||'')}"></figure>`:''}
   <div class="reading">${e.html}</div>
   ${e.date?`<p class="dateline">প্রথম প্রকাশ: ${esc(e.date)}${e.edited?` · সর্বশেষ সম্পাদনা: ${esc(e.edited)}`:''}</p>`:''}
-  <nav class="pager"><a href="#home"><small>← সব রচনা</small><span>প্রথম পাতা</span></a></nav></article>`;
+  <nav class="pager">${backLink(e.kind)}</nav></article>`;
 }
 
 /* ---- PDF ---- */
@@ -119,7 +158,7 @@ async function pdfView(id,e){
   document.title = e.title + ' · ' + AUTHOR;
   app.innerHTML = `<article class="col"><header class="head"><span class="label">${esc(e.kind)}</span><h1>${esc(e.title)}</h1><p class="meta">${e.date?esc(e.date)+' · ':''}<a class="pdflink" href="${esc(e.pdf)}" target="_blank" rel="noopener">PDF ফাইলটি আলাদা খুলুন</a></p></header>
   <div class="pdfpages" id="pdfpages"><p class="loading" style="margin:1rem 0">পাতাগুলো লোড হচ্ছে…</p></div>
-  <nav class="pager"><a href="#home"><small>← সব রচনা</small><span>প্রথম পাতা</span></a></nav></article>`;
+  <nav class="pager">${backLink(e.kind)}</nav></article>`;
   const box = document.getElementById('pdfpages');
   try{
     const lib = await pdfLib();
@@ -145,6 +184,8 @@ async function route(){
   const h = decodeURIComponent((location.hash||'').slice(1)) || 'home';
   try{
     const W = await works();
+    const cat = cats(W).find(c=>c.token===h);
+    if(cat){ await category(cat); window.scrollTo(0,0); progress(); return; }
     const m = h.match(/^(.+)-(\d+)$/);
     const w = W.find(x=>x.id===h) || (m && W.find(x=>x.id===m[1]));
     if(!w || h==='home'){ await home(); }
